@@ -1,4 +1,4 @@
-import pandas as pd
+import dask.dataframe as dd
 from io import BytesIO
 from datetime import datetime
 from google.cloud import bigquery as bq
