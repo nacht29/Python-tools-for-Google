@@ -20,14 +20,14 @@ def build_drive_service(service_account_key) -> Resource:
 	return service
 
 class Google_Drive:
-	def __init__(self, service, is_shared_drive:str, main_drive_id:str):
+	def __init__(self, service, is_shared_drive:str, main_drive_id:str=None):
 		if not isinstance(is_shared_drive, bool):
 			raise ValueError('is_shared_drive must be type <bool>')
 		
 		self.service = service
 		self.is_shared_drive = is_shared_drive
 		if not is_shared_drive:
-			if main_drive_id == 'my-drive':
+			if main_drive_id in ['my-drive', None] :
 				self.main_drive_id = 'root'
 			else:
 				raise ValueError('Invalid parent folder Id') 
