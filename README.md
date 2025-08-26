@@ -78,7 +78,7 @@ def drive_autodetect_folders(self, parent_folder_id:str, folder_name:str, create
 
 #### **Syntax:**
 ```py
-target_drive.drive_autodetect_folders(parent_folder_id:str, folder_name:str, create_folder:bool, log:bool=False)
+target_drive.drive_autodetect_folders(parent_folder_id="Id of folder preeceding target folder", folder_name="Name of target folder", create_folder=True, log=False)
 ```
 
 #### **Use case:**
@@ -87,6 +87,7 @@ target_drive.drive_autodetect_folders(parent_folder_id:str, folder_name:str, cre
 - If folder does not exist
 	- If `create_folder=True`, create a folder by the name `folder_name` and return created folder data
 	- Return an empty list if `create_folder=False`
+- `log=True` to enable status and error output for logging, otherwise `log=False`
 
 #### **Return value:**
 - Type: Python List
