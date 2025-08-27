@@ -16,6 +16,8 @@ bq_client = bq.Client(credentials=credentials, project=credentials.project_id)
 service = build_drive_service(SERVICE_ACCOUNT)
 ```
 
+---
+
 ## df_to_bq
 
 #### **Definition:**
