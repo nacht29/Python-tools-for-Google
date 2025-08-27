@@ -13,22 +13,22 @@ Building a Python package for working with Google Services, including GCP and Go
 	from python_utils.bigquery import *
 	from python_utils.utils import *
 	```
-
+5. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects
 ---
 
 ### Modules
 
-#### **[bigquery.py](https)**
+#### **[bigquery.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md)**
 - Functions for working with BigQuery
 
-#### **[google_drive.py](https)**
+#### **[google_drive.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
 - Class and methods for working with Google Drive
 
-#### **[gcs_bucket.py](https)**
+#### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
 - Functions for working with Google Cloud Storage Bucket
 
-#### **[api.py](https)**
+#### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
 - Functions for working with APIs 
 
-#### **[utils.py](https)**
+#### **[utils.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/utils.md)**
 - Utility functions
