@@ -171,7 +171,7 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 	return excel_buffers
 
 # export DF as CSV file
-def df_to_csv_files(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
+def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 	
@@ -232,8 +232,7 @@ def df_to_csv_files(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: st
 					raise
 
 # export DF as Excel file
-def df_to_excel_files(df, slice_row: int, outfile_path: str, 
-					 log: bool = False, ignore_error: bool = False):
+def df_to_excel(df, slice_row: int, outfile_path: str, log: bool = False, ignore_error: bool = False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 	

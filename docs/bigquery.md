@@ -24,7 +24,7 @@ service = build_drive_service(SERVICE_ACCOUNT)
 
 #### **Definition:**
 ```py
-def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=No return value, autodetect:bool=True)
+def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True)
 ```
 
 #### **Parameters:**
@@ -68,7 +68,7 @@ df_to_bq(
 Loads data from Python Pandas Dataframe to BigQuery.
 
 #### **Return value:**
-No return value
+No return value.
 
 ---
 
@@ -130,10 +130,10 @@ def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',',
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to CSV.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
-- `outfile_name`: Name of the resulting CSV file.
+- `df`: The dataframe to be exported to binary CSV file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary CSV files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `sep`: The seperator for the binary CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `outfile_name`: Name of the resulting binary CSV file.
 - `log`: Enable printing messages for logging.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
@@ -145,7 +145,7 @@ df_to_csv_bin(df, slice_row=100, outfile_name="sales.csv", sep='|', log=True, ig
 #### **Use case:**
 - Export Pandas Dataframe to binary CSV file.
 - Best used when writing large query results into CSV files that does not need to be stored locally. 
-- E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](http) function.
+- E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
 List of tuples in the form of `[(file_name, file_buffer)]`.
@@ -160,7 +160,62 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to Excel.
+- `df`: The dataframe to be exported to binary Excel file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary Excel files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `outfile_name`: Name of the resulting binary Excel file.
+- `log`: Enable printing messages for logging.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+df_to_excel_bin(df, slice_row=100, outfile_name="sales.xlsx", log=True, ignore_error=False)
+```
+
+#### **Use case:**
+- Export Pandas Dataframe to binary Excel file.
+- Best used when writing large query results into binary Excel files that does not need to be stored locally. 
+- E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
+
+#### **Return value:**
+List of tuples in the form of `[(file_name, file_buffer)]`.
+
+---
+
+## df_to_csv
+#### **Definition:**
+```py
+def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to local CSV file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `outfile_name`: Name of the resulting CSV file.
+- `log`: Enable printing messages for logging.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+df_to_csv(df, slice_row=100, outfile_name="sales.csv", sep='|', log=True, ignore_error=False)
+```
+
+#### **Use case:**
+Export Pandas Dataframe data to a local CSV file.
+
+#### **Return value:**
+No return value.
+
+---
+
+## df_to_excel
+#### **Definition:**
+```py
+def df_to_excel(df: pd.DataFrame, slice_row: int, outfile_path: str, log: bool = False, ignore_error: bool = False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to local Excel file.
 - `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
 - `outfile_name`: Name of the resulting Excel file.
 - `log`: Enable printing messages for logging.
@@ -168,13 +223,11 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 
 #### **Function call:**
 ```py
-df_to_excel_bin(df, slice_row=100, outfile_name="sales.csv", log=True, ignore_error=False)
+df_to_excel(df, slice_row=100, outfile_name="sales.xlsx", log=True, ignore_error=False)
 ```
 
 #### **Use case:**
-- Export Pandas Dataframe to binary Excel file.
-- Best used when writing large query results into Excel files that does not need to be stored locally. 
-- E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](http) function.
+Export Pandas Dataframe data to a local Excel file.
 
 #### **Return value:**
-List of tuples in the form of `[(file_name, file_buffer)]`.
+No return value.
