@@ -45,9 +45,9 @@ Note: you can store the schema definitions in [formats.py](https://github.com/na
 from google.cloud import bigquery as bq
 
 schema = [
-    bq.SchemaField("primary_column_name", "INTEGER", mode="REQUIRED"),
-    bq.SchemaField("column2", "STRING", mode="NULLABLE"),
-    bq.SchemaField("column3", "BOOLEAN", mode="NULLABLE")
+	bq.SchemaField("primary_column_name", "INTEGER", mode="REQUIRED"),
+	bq.SchemaField("column2", "STRING", mode="NULLABLE"),
+	bq.SchemaField("column3", "BOOLEAN", mode="NULLABLE")
 ]
 ```
 
@@ -55,12 +55,12 @@ schema = [
 
 ```py
 df_to_bq(
-    bq_client,
-    df=my_df,
-    table_id:str,
-    mode:str,
-    schema=schema,
-    autodetect:bool=True
+	bq_client,
+	df=my_df,
+	table_id:str,
+	mode:str,
+	schema=schema,
+	autodetect:bool=True
 )
 ```
 
@@ -97,8 +97,8 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 SELECT *
 FROM `project_id.dataset.table`
 WHERE
-    BizDate = DATE_SUB(CURRENT_DATE('+08:00'), INTERVAL 1 DAY)
-    AND dept like cur_dept
+	BizDate = DATE_SUB(CURRENT_DATE('+08:00'), INTERVAL 1 DAY)
+	AND dept like cur_dept
 ORDER BY dept, Itemcode, Location
 ```
 
@@ -106,11 +106,11 @@ ORDER BY dept, Itemcode, Location
 
 ```py
 bq_to_df(
-    bq_client,
-    sql_script="/home/project/sql_scripts/script.sql",
-    replace_in_query=[(".table", ".table01"), ("cur_dept", "'1%'")],
-    log=True,
-    ignore_error=False
+	bq_client,
+	sql_script="/home/project/sql_scripts/script.sql",
+	replace_in_query=[(".table", ".table01"), ("cur_dept", "'1%'")],
+	log=True,
+	ignore_error=False
 )
 ```
 
@@ -139,7 +139,14 @@ def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',',
 
 #### **Function call:**
 ```py
-df_to_csv_bin(df, slice_row=100, outfile_name="sales.csv", sep='|', log=True, ignore_error=False)
+df_to_csv_bin(
+	df=df,
+	slice_row=100,
+	outfile_name="sales.csv",
+	sep='|', 
+	log=True,
+	ignore_error=False
+)
 ```
 
 #### **Use case:**
@@ -168,7 +175,13 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 
 #### **Function call:**
 ```py
-df_to_excel_bin(df, slice_row=100, outfile_name="sales.xlsx", log=True, ignore_error=False)
+df_to_excel_bin(
+	df=df,
+	slice_row:int,
+	outfile_name:str,
+	log=False,
+	ignore_eror=False
+):
 ```
 
 #### **Use case:**
@@ -197,7 +210,14 @@ def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',
 
 #### **Function call:**
 ```py
-df_to_csv(df, slice_row=100, outfile_name="sales.csv", sep='|', log=True, ignore_error=False)
+df_to_csv(
+	df=df,
+	slice_row=100,
+	outfile_name="sales.csv",
+	sep='|',
+	log=True,
+	ignore_error=False
+)
 ```
 
 #### **Use case:**
@@ -223,7 +243,13 @@ def df_to_excel(df: pd.DataFrame, slice_row: int, outfile_path: str, log: bool =
 
 #### **Function call:**
 ```py
-df_to_excel(df, slice_row=100, outfile_name="sales.xlsx", log=True, ignore_error=False)
+df_to_excel(
+	df,
+	slice_row=100,
+	outfile_name="sales.xlsx",
+	log=True,
+	ignore_error=False
+)
 ```
 
 #### **Use case:**
