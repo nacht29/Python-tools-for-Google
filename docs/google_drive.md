@@ -48,3 +48,21 @@ target_drive.drive_autodetect_folders(
 - Type: Python List
 - Returns `[folder_id, folder_name, last modified]` as folder data if folder is found or created
 - Returns an empty Python list if folder is not found and not created
+
+---
+
+## local_file_to_drive
+#### **Definition:**
+#### **Method call:**
+#### **Use case:**
+#### **Return value:**
+
+---
+
+## bin_file_to_drive
+#### **Definition:**
+#### **Method call:**
+#### **Use case:**
+#### **Return value:**
+
+---
