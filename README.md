@@ -36,3 +36,6 @@ Building a Python package for working with Google Services, including GCP and Go
 
 #### **[utils.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/utils.md)**
 - Utility functions
+
+#### **[formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md)**
+- Enforce file type rules. Do not edit the initial content in this file.
