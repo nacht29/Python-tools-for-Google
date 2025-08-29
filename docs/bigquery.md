@@ -1,4 +1,7 @@
+<centre>
+
 # bigquery.py
+</centre>
 
 ## Set up
 1. Create a BigQuery client using your service account key
@@ -33,7 +36,7 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None,aut
 <details>
 <summary>Expand to see how to define schema for BQ upload</summary>
 
-Note: you can store the schema definitions in [formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/python_utils/formats.py). [See documentation]()
+Note: you can store the schema definitions in [formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/python_utils/formats.py). See documentation [here](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md).
 
 ```py
 from google.cloud import bigquery as bq
