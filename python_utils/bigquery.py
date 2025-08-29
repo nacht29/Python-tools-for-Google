@@ -175,6 +175,9 @@ def df_to_csv_files(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: st
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 	
+	if '/' in outfile_path:
+		os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
+
 	if slice_row == 0:
 		try:
 			if log:
@@ -233,6 +236,10 @@ def df_to_excel_files(df, slice_row: int, outfile_path: str,
 					 log: bool = False, ignore_error: bool = False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
+	
+	# Extract dir path from file path and create dir if it doesn't exist yet.
+	if '/' in outfile_path:
+		os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
 
 	if slice_row == 0:
 		try:
@@ -263,9 +270,6 @@ def df_to_excel_files(df, slice_row: int, outfile_path: str,
 				if log:
 					print(f'{datetime.now()} creating Excel file {new_outfile_path}')
 
-				# Create directory if it doesn't exist
-				os.makedirs(os.path.dirname(new_outfile_path), exist_ok=True)
-				
 				with pd.ExcelWriter(new_outfile_path, engine='xlsxwriter') as writer:
 					subset_df.to_excel(writer, index=False, header=True)
 
