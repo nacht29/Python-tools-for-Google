@@ -1,6 +1,6 @@
-<h1 style="text-align: center;">
-bigquery.py
-</h1>
+<!-- <h1 style="text-align: center;"> -->
+# bigquery.py
+<!-- </h1> -->
 
 ## Set up
 1. Create a BigQuery client using your service account key
@@ -24,11 +24,15 @@ service = build_drive_service(SERVICE_ACCOUNT)
 
 #### **Definition:**
 ```py
-def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None,autodetect:bool=True)
+def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True)
 ```
 
 #### **Parameters:**
-- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up)
+- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `df`: The Pandas Dataframe containing the data to be uploaded to BigQuery.
+- `table_id`: Id of the BigQuery for the data to be uploaded to. Usually in `project_id.dataset_name_table_name`.
+- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call).
+- `autodetect`: If `True`, automatically creates a new table if the current `table_id` doesn't exist.
 
 #### **Function call:**
 
@@ -60,12 +64,58 @@ df_to_bq(
 )
 ```
 
-**Use case:**
+#### **Use case:**
 Loads data from Python Pandas Dataframe to BigQuery.
 
-**Return value:**
+#### **Return value:**
 None
 
 ---
 
 ## bq_to_df
+
+#### **Definition:**
+```py
+def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ignore_error=False):
+```
+
+#### **Parameters:**
+- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `sql_script`: File path to the SQL script to query data from BigQuery.
+- `replace_in_query`: Search and replace parts in your SQL script. Best for repititive queries.
+- `log`: Enable printing messages for logging.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+<details>
+<summary>Example query (with parts to replace)</summary>
+
+- Replace `cur_dept` with `"1%"`, `"2%"` etc. The function can then be called in a for loop to query for each department.
+- Replace table_id `project_id.dataset.table` with `project_id.dataset.table01`. The dunction can be called in a for loop to query for table 01-05.
+
+```sql
+SELECT *
+FROM `project_id.dataset.table`
+WHERE
+    BizDate = DATE_SUB(CURRENT_DATE('+08:00'), INTERVAL 1 DAY)
+    AND dept like cur_dept
+ORDER BY dept, Itemcode, Location
+```
+
+</details>
+
+```py
+bq_to_df(
+    bq_client,
+    sql_script="/home/project/sql_scripts/script.sql",
+    replace_in_query=[(".table", ".table01"), ("cur_dept", "'1%'")],
+    log=True,
+    ignore_error=False
+)
+```
+
+#### **Use case:**
+Extract BigQuery query results into a Pandas Dataframe.
+
+#### **Return value:**
+Pandas Dataframe containing query results.
