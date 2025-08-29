@@ -1,8 +1,14 @@
+import os
 import pandas as pd
 from io import BytesIO
 from datetime import datetime
 from google.cloud import bigquery as bq
 
+# ===============
+# = local to BQ = 
+# ===============
+
+# load Pandas Dataframe data to BigQuery
 def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True):
 	if mode == 'a':
 		write_disposition = 'WRITE_APPEND'
@@ -19,6 +25,11 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, au
 	except Exception:
 		raise
 
+# ===============
+# = BQ to local = 
+# ===============
+
+# extract BQ query data to Pandas DF
 def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ignore_error=False):
 	with open(sql_script, 'r') as cur_script:
 		if log:
@@ -41,23 +52,11 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 
 	return (results_df)
 
-def bq_to_csv(bq_client,
-			  sql_script:str,
-			  slice_row:int,
-			  outfile_name:str,
-			  replace_in_query:list=[],
-			  sep:str=',',
-			  encoding:str='utf-8',
-			  index:bool=False,
-			  header:bool=True,
-			  log:bool=False,
-			  ignore_error:bool=False
-) -> tuple:
-
+# export DF as CSV binary file
+def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
-
-	results_df = bq_to_df(bq_client, sql_script, replace_in_query, log, ignore_error)
+	
 	csv_buffers = []
 
 	if slice_row == 0:
@@ -66,12 +65,12 @@ def bq_to_csv(bq_client,
 				print(f'{datetime.now()} creating CSV binary file for {outfile_name}')
 			
 			file_buffer = BytesIO()
-			results_df.to_csv(
+			df.to_csv(
 				path_or_buf=file_buffer, 
 				sep=sep,
-				encoding=encoding,
-				index=index, 
-				header=header
+				encoding='utf-8',
+				index=False,
+				header=True
 			)
 			file_buffer.seek(0)
 			csv_buffers.append((outfile_name, file_buffer))
@@ -85,10 +84,10 @@ def bq_to_csv(bq_client,
 				raise
 
 	else:
-		for cur_row in range(0, len(results_df), slice_row):
+		for cur_row in range(0, len(df), slice_row):
 			try:
 				file_ver = cur_row // slice_row + 1
-				subset_df = results_df.iloc[cur_row:cur_row + slice_row]
+				subset_df = df.iloc[cur_row:cur_row + slice_row]
 				new_outfile_name = outfile_name.replace('.csv', f'_{file_ver}.csv')
 
 				if log:
@@ -98,9 +97,9 @@ def bq_to_csv(bq_client,
 				subset_df.to_csv(
 					path_or_buf=cur_buffer, 
 					sep=sep,
-					encoding=encoding,
-					index=index, 
-					header=header
+					encoding='utf-8',
+					index=False,
+					header=True
 				)
 				cur_buffer.seek(0)
 				csv_buffers.append((new_outfile_name, cur_buffer))
@@ -115,22 +114,11 @@ def bq_to_csv(bq_client,
 
 	return csv_buffers
 
-# read SQL script and query data from BQ
-# write data to excel binary
-# returns [(filename1, buffer1), (filename2, buffer2), ...]
-def bq_to_excel(bq_client,
-				sql_script:str,
-				slice_row:int,
-				outfile_name:str,
-				replace_in_query:list=[],
-				log=False,
-				ignore_eror=False
-) -> tuple:
-
+# export DF as Excel binary file
+def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 
-	results_df = bq_to_df(bq_client, sql_script, replace_in_query, log, ignore_eror)
 	excel_buffers = []
 
 	if slice_row == 0:
@@ -140,7 +128,7 @@ def bq_to_excel(bq_client,
 
 			cur_buffer = BytesIO()
 			with pd.ExcelWriter(cur_buffer, engine='xlsxwriter') as file_buffer:
-				results_df.to_excel(file_buffer, index=False, header=True)
+				df.to_excel(file_buffer, index=False, header=True)
 			excel_buffers.append(outfile_name, cur_buffer.seek(0))
 
 			if log:
@@ -154,9 +142,9 @@ def bq_to_excel(bq_client,
 	else:
 		try:
 			# slice the results of each script
-			for cur_row in range(0, len(results_df), slice_row):
+			for cur_row in range(0, len(df), slice_row):
 				file_ver = cur_row // slice_row + 1
-				subset_df = results_df.iloc[cur_row:cur_row + slice_row]
+				subset_df = df.iloc[cur_row:cur_row + slice_row]
 				new_outfile_name = outfile_name.replace('.xlsx', f'_{file_ver}.xlsx')
 
 				if log:
@@ -181,3 +169,110 @@ def bq_to_excel(bq_client,
 				raise
 
 	return excel_buffers
+
+# export DF as CSV file
+def df_to_csv_files(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
+	if not 0 < slice_row <= 1000000:
+		raise ValueError('Invalid slice length.')
+	
+	if slice_row == 0:
+		try:
+			if log:
+				print(f'{datetime.now()} creating CSV file {outfile_path}')
+			
+			# Create directory if it doesn't exist
+			os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
+			
+			df.to_csv(
+				path_or_buf=outfile_path, 
+				sep=sep,
+				encoding='utf-8',
+				index=False,
+				header=True
+			)
+
+			if log:
+				print(f'{datetime.now()} {outfile_path} created')
+
+		except Exception as error:
+			print(f"Failed to create CSV file {outfile_path}.\n\n{error}")
+			if not ignore_error:
+				raise
+
+	else:
+		for cur_row in range(0, len(df), slice_row):
+			try:
+				file_ver = cur_row // slice_row + 1
+				subset_df = df.iloc[cur_row:cur_row + slice_row]
+				new_outfile_path = outfile_path.replace('.csv', f'_{file_ver}.csv')
+
+				if log:
+					print(f'{datetime.now()} creating CSV file {new_outfile_path}')
+
+				# Create directory if it doesn't exist
+				os.makedirs(os.path.dirname(new_outfile_path), exist_ok=True)
+				
+				subset_df.to_csv(
+					path_or_buf=new_outfile_path, 
+					sep=sep,
+					encoding='utf-8',
+					index=False,
+					header=True
+				)
+
+				if log:
+					print(f'{datetime.now()} {new_outfile_path} created')
+
+			except Exception as error:
+				print(f"Error creating {new_outfile_path}.\n\n{error}")
+				if not ignore_error:
+					raise
+
+# export DF as Excel file
+def df_to_excel_files(df, slice_row: int, outfile_path: str, 
+					 log: bool = False, ignore_error: bool = False):
+	if not 0 < slice_row <= 1000000:
+		raise ValueError('Invalid slice length.')
+
+	if slice_row == 0:
+		try:
+			if log:
+				print(f'{datetime.now()} creating Excel file {outfile_path}')
+
+			# Create directory if it doesn't exist
+			os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
+			
+			with pd.ExcelWriter(outfile_path, engine='xlsxwriter') as writer:
+				df.to_excel(writer, index=False, header=True)
+
+			if log:
+				print(f'{datetime.now()} {outfile_path} created')
+
+		except Exception as error:
+			print(f"Failed to create Excel file {outfile_path}.\n\n{error}")
+			if not ignore_error:
+				raise
+
+	else:
+		for cur_row in range(0, len(df), slice_row):
+			try:
+				file_ver = cur_row // slice_row + 1
+				subset_df = df.iloc[cur_row:cur_row + slice_row]
+				new_outfile_path = outfile_path.replace('.xlsx', f'_{file_ver}.xlsx')
+
+				if log:
+					print(f'{datetime.now()} creating Excel file {new_outfile_path}')
+
+				# Create directory if it doesn't exist
+				os.makedirs(os.path.dirname(new_outfile_path), exist_ok=True)
+				
+				with pd.ExcelWriter(new_outfile_path, engine='xlsxwriter') as writer:
+					subset_df.to_excel(writer, index=False, header=True)
+
+				if log:
+					print(f'{datetime.now()} {new_outfile_path} created')
+
+			except Exception as error:
+				print(f"Failed to create Excel file {new_outfile_path}.\n\n{error}")
+				if not ignore_error:
+					raise

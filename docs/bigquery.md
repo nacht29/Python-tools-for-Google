@@ -24,7 +24,7 @@ service = build_drive_service(SERVICE_ACCOUNT)
 
 #### **Definition:**
 ```py
-def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True)
+def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=No return value, autodetect:bool=True)
 ```
 
 #### **Parameters:**
@@ -68,7 +68,7 @@ df_to_bq(
 Loads data from Python Pandas Dataframe to BigQuery.
 
 #### **Return value:**
-None
+No return value
 
 ---
 
@@ -119,3 +119,62 @@ Extract BigQuery query results into a Pandas Dataframe.
 
 #### **Return value:**
 Pandas Dataframe containing query results.
+
+---
+
+## df_to_csv_bin
+
+#### **Definition:**
+```py
+def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to CSV.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `outfile_name`: Name of the resulting CSV file.
+- `log`: Enable printing messages for logging.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+df_to_csv_bin(df, slice_row=100, outfile_name="sales.csv", sep='|', log=True, ignore_error=False)
+```
+
+#### **Use case:**
+- Export Pandas Dataframe to binary CSV file.
+- Best used when writing large query results into CSV files that does not need to be stored locally. 
+- E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](http) function.
+
+#### **Return value:**
+List of tuples in the form of `[(file_name, file_buffer)]`.
+
+---
+
+## df_to_excel_bin
+
+#### **Definition:**
+```py
+def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to Excel.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `outfile_name`: Name of the resulting Excel file.
+- `log`: Enable printing messages for logging.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+df_to_excel_bin(df, slice_row=100, outfile_name="sales.csv", log=True, ignore_error=False)
+```
+
+#### **Use case:**
+- Export Pandas Dataframe to binary Excel file.
+- Best used when writing large query results into Excel files that does not need to be stored locally. 
+- E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](http) function.
+
+#### **Return value:**
+List of tuples in the form of `[(file_name, file_buffer)]`.
