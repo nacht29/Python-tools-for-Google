@@ -1,7 +1,6 @@
-<centre>
-
-# bigquery.py
-</centre>
+<h1 style="text-align: center;">
+bigquery.py
+</h1>
 
 ## Set up
 1. Create a BigQuery client using your service account key
