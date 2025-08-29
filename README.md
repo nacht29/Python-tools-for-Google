@@ -22,20 +22,20 @@ Building a Python package for working with Google Services, including GCP and Go
 
 ### Modules
 
-#### **[bigquery.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md)**
-- Functions for working with BigQuery
+- #### **[bigquery.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md)**
+	- Functions for working with BigQuery
 
-#### **[google_drive.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
-- Class and methods for working with Google Drive
+- #### **[google_drive.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
+	- Class and methods for working with Google Drive
 
-#### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
-- Functions for working with Google Cloud Storage Bucket
+- #### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
+	- Functions for working with Google Cloud Storage Bucket
 
-#### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
-- Functions for working with APIs 
+- #### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
+	- Functions for working with APIs 
 
-#### **[utils.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/utils.md)**
-- Utility functions
+- #### **[utils.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/utils.md)**
+	- Utility functions
 
-#### **[formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md)**
-- Enforce file type rules. Do not edit the initial content in this file.
+- #### **[formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md)**
+	- Enforce file type rules. Do not edit the initial content in this file.
