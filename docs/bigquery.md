@@ -26,12 +26,14 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None,aut
 ```
 
 #### **Parameters:**
-- ``
+- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up)
 
 #### **Function call:**
 
 <details>
 <summary>Expand to see how to define schema for BQ upload</summary>
+
+Note: you can store the schema definitions in [formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/python_utils/formats.py). [See documentation]()
 
 ```py
 from google.cloud import bigquery as bq
@@ -64,3 +66,4 @@ None
 
 ---
 
+## bq_to_df

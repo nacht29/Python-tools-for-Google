@@ -99,8 +99,3 @@ def bucket_excel_to_bq(bq_client, bucket_filepath:str, project_id:str, dataset_i
 	except Exception as error:
 		print(f'Failed to load {bucket_filepath} to {project_id}.{dataset_id}.{table_id}. Error: {error}') if log else ''
 		raise
-
-'''
-Expansion:
-- ETL from various databases to data warehouse
-'''
