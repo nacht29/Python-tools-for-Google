@@ -27,6 +27,7 @@ class Google_Drive:
 		self.service = service
 		self.is_shared_drive = is_shared_drive
 		if not is_shared_drive:
+			# set drive_id = 'root' if working on My Drive 
 			if main_drive_id in ['my-drive', None] :
 				self.main_drive_id = 'root'
 			else:

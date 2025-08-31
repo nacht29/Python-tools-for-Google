@@ -106,8 +106,15 @@ Search for files in Drive folder by file name.
 ---
 
 ## local_file_to_drive
+
 #### **Definition:**
+```py
+def local_file_to_drive(self, dst_folder_id:str, file_path:str, update_dup=True, log=False):
+```
+
 #### **Parameters:**
+- `dst_folder_id`: The ID of the Drive folder to upload the files to. It can also be your root Drive folder.
+
 #### **Method call:**
 #### **Use case:**
 #### **Return value:**
@@ -132,7 +139,7 @@ There are 2 formats of Drive Ids:
 #### 1. **My Drive (owned Drive)**
 
 ##### **Introduction**
-- Link format: "https://drive.google.com/drive/my-drive".
+- Link format: `https://drive.google.com/drive/my-drive`.
 - Example: Always "https://drive.google.com/drive/my-drive".
 - This is the link to the landing page of your "My Drive" Google Drive. Note that I sometimes refer to this as the root folder.
 
@@ -143,7 +150,7 @@ There are 2 formats of Drive Ids:
 #### 2. **Shared Drives**
 
 ##### **Introduction**
-- Link format: "https://drive.google.com/drive/u/0/folders/DRIVE_ID".
+- Link format: `https://drive.google.com/drive/u/0/folders/DRIVE_ID`.
 - Example: "https://drive.google.com/drive/u/0/folders/0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456".
 - This is the link to the landing page of your shared Google Drive(s). Note that I sometimes refer to this as the root folder.
 - Usually contains `/u/0/` to indicate user domain.
@@ -159,12 +166,12 @@ There are 2 formats of Drive Ids:
 Each Drive folder is identified by a unique ID.
 
 #### 1. **My Drive folders**
-- Link format: "https://drive.google.com/drive/folders/FOLDER_ID".
+- Link format: `https://drive.google.com/drive/folders/FOLDER_ID`.
 - Example: "https://drive.google.com/drive/folders/1ABCdEfGH2IJK-LMnOpQ3RSTuv4WXYZab".
 - Folder IDs typically starts with `1` to indicate a folder in a personal Drive.
 
 #### 2. **Shared Drive folders:**
-- Link format: "https://drive.google.com/drive/u/0/folders/FOLDER_ID".
+- Link format: `https://drive.google.com/drive/u/0/folders/FOLDER_ID`.
 - Example: "https://drive.google.com/drive/u/0/folders/0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456".
 - Folder IDs typically starts with `0` to indicate a folder in a personal Drive.
 - Usually contains `/u/0/` to indicate user domain.

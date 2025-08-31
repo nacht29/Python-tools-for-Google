@@ -171,12 +171,15 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 	return excel_buffers
 
 # export DF as CSV file
-def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
+def df_to_csv(df:pd.DataFrame, slice_row:int, outfile_path:str, sep:str=',', dlt_dir:bool=False, log:bool=False, ignore_error:bool=False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 	
 	if '/' in outfile_path:
-		os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
+		dir = os.path.dirname(outfile_path)
+		os.makedirs(dir, exist_ok=True)
+		if log:
+			print(f"{datetime.now()} created directory: {dir}")
 
 	if slice_row == 0:
 		try:
@@ -230,15 +233,22 @@ def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',
 				print(f"Error creating {new_outfile_path}.\n\n{error}")
 				if not ignore_error:
 					raise
+	if dlt_dir:
+		os.rmdir(dir)
+		if log:
+			print(f"{datetime.now()} deleted {dir}")
 
 # export DF as Excel file
-def df_to_excel(df, slice_row: int, outfile_path: str, log: bool = False, ignore_error: bool = False):
+def df_to_excel(df, slice_row:int, outfile_path:str, dlt_dir:bool=False,  log:bool=False, ignore_error:bool=False):
 	if not 0 < slice_row <= 1000000:
 		raise ValueError('Invalid slice length.')
 	
 	# Extract dir path from file path and create dir if it doesn't exist yet.
 	if '/' in outfile_path:
-		os.makedirs(os.path.dirname(outfile_path), exist_ok=True)
+		dir = os.path.dirname(outfile_path)
+		os.makedirs(dir, exist_ok=True)
+		if log:
+			print(f"{datetime.now()} created directory: {dir}")
 
 	if slice_row == 0:
 		try:
@@ -279,3 +289,8 @@ def df_to_excel(df, slice_row: int, outfile_path: str, log: bool = False, ignore
 				print(f"Failed to create Excel file {new_outfile_path}.\n\n{error}")
 				if not ignore_error:
 					raise
+	
+	if dlt_dir:
+		os.rmdir(dir)
+		if log:
+			print(f"{datetime.now()} deleted {dir}")

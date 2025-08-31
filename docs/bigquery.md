@@ -197,16 +197,18 @@ List of tuples in the form of `[(file_name, file_buffer)]`.
 ---
 
 ## df_to_csv
+
 #### **Definition:**
 ```py
-def df_to_csv(df: pd.DataFrame, slice_row: int, outfile_path: str, sep: str = ',', log: bool = False, ignore_error: bool = False):
+def df_to_csv(df:pd.DataFrame, slice_row:int, outfile_path:str, sep:str=',', dlt_dir:bool=False, log:bool=False, ignore_error:bool=False):
 ```
 
 #### **Parameters:**
 - `df`: The dataframe to be exported to local CSV file.
 - `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
 - `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
-- `outfile_name`: Name of the resulting CSV file.
+- `outfile_path`: Full path to the resulting CSV file.
+- `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
 - `log`: Enable printing messages for logging.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
@@ -217,6 +219,7 @@ df_to_csv(
 	slice_row=100,
 	outfile_name="sales.csv",
 	sep='|',
+	dlt_dir=True,
 	log=True,
 	ignore_error=False
 )
@@ -239,7 +242,8 @@ def df_to_excel(df: pd.DataFrame, slice_row: int, outfile_path: str, log: bool =
 #### **Parameters:**
 - `df`: The dataframe to be exported to local Excel file.
 - `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `outfile_name`: Name of the resulting Excel file.
+- `outfile_path`: Full path to the resulting Excel file.
+- `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
 - `log`: Enable printing messages for logging.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
@@ -249,6 +253,7 @@ df_to_excel(
 	df,
 	slice_row=100,
 	outfile_name="sales.xlsx",
+	dlt_dir=True,
 	log=True,
 	ignore_error=False
 )
