@@ -159,7 +159,7 @@ class Google_Drive:
 
 	# search a file by name in Google Drive
 	# return (file_id, file_name, last_modified)
-	def drive_search_filename(self, parent_folder_id: str, file_name:str) -> list:
+	def drive_search_filename(self, parent_folder_id: str, file_name:str) -> List[Tuple]:
 		query = f"""
 		'{parent_folder_id}' in parents
 		and name = '{file_name}'

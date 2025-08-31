@@ -78,16 +78,16 @@ folder_data = target_drive.drive_autodetect_folders(
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 
 #### **Return value:**
-- Type: Python List
-- Returns list containing folder data: `[folder_id, folder_name, last modified]` if folder is found or created
-- Returns an empty Python list if folder is not found and not created
+- Type: List of tuples.
+- Returns list containing folder data: `[folder_id, folder_name, last modified]` if folder is found or created.
+- Returns an empty Python list if folder is not found and not created.
 
 ---
 
 ## drive_search_filename
 #### **Definition:**
 ```py
-def drive_search_filename(self, parent_folder_id: str, file_name:str) -> list:
+def drive_search_filename(self, parent_folder_id: str, file_name:str) -> List[Tuple]:
 ```
 
 #### **Parameters:**
@@ -103,6 +103,9 @@ file_data = drive_search_filename(parent_folder_id="1ABCdEfGH2IJK-LMnOpQ3RSTuv4W
 Search for files in Drive folder by file name.
 
 #### **Return value:**
+- Type: List of tuples.
+- Returns a list of file data in the form of `[(file_id, file_name, last_modified)]`.
+
 ---
 
 ## local_file_to_drive

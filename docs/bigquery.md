@@ -26,7 +26,7 @@ bq_client = bq.Client(credentials=credentials, project=credentials.project_id)
 
 #### **Definition:**
 ```py
-def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True)
+def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, autodetect:bool=True):
 ```
 
 #### **Parameters:**
@@ -78,7 +78,7 @@ No return value.
 
 #### **Definition:**
 ```py
-def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ignore_error=False):
+def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ignore_error=False) -> pd.DataFrame:
 ```
 
 #### **Parameters:**
@@ -199,7 +199,7 @@ No return value.
 
 #### **Definition:**
 ```py
-def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False):
+def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False) -> List[Tuple]:
 ```
 
 #### **Parameters:**
@@ -229,7 +229,8 @@ csv_bin_files = df_to_csv_bin(
 - E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
-List of tuples in the form of `[(file_name, file_buffer)]`.
+- Type: List of tuples.
+- Returns data of the uploaded file in the form of `[(file_name, file_buffer)]`.
 
 ---
 
@@ -237,7 +238,7 @@ List of tuples in the form of `[(file_name, file_buffer)]`.
 
 #### **Definition:**
 ```py
-def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False):
+def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False) -> List[Tuple]:
 ```
 
 #### **Parameters:**
