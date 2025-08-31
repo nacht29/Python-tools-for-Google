@@ -5,6 +5,7 @@ from datetime import datetime
 from google.oauth2 import service_account
 from googleapiclient.discovery import build, Resource
 from googleapiclient.http import MediaIoBaseUpload, MediaIoBaseDownload
+from typing import List, Tuple
 from python_utils.formats import content_data
 from python_utils.utils import *
 
@@ -240,7 +241,7 @@ class Google_Drive:
 
 	# uploads a binary file data to Google Drive
 	# file data taken in the form of tuple: (file name, file buffer, file type)
-	def bin_file_to_drive(self, dst_folder_id:str, file_data:tuple, update_dup=True, log=False):
+	def bin_file_to_drive(self, dst_folder_id:str, file_data:List[Tuple], update_dup=True, log=False):
 		# parsing check
 		if update_dup not in (True, False):
 			raise ValueError('Update dup must be value type <bool>')

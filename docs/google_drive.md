@@ -58,7 +58,7 @@ def drive_autodetect_folders(self, parent_folder_id:str, folder_name:str, create
 - `parent_folder_id`: The folder ID preceeding your target folder. E.g. you are searching/creating the for `folder1/folder2`, you need to provide the ID of `folder1/`. 
 - `folder_name`: Name of the target folder you care seaching/creating.
 - `create_folder`: `True` to create a folder with the name `folder_name` if the folder with `folder_name` isn't found in the parent folder.
-- `log`: Enable printing messages for logging.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 
 #### **Method call:**
 ```py
@@ -75,7 +75,7 @@ folder_data = target_drive.drive_autodetect_folders(
 - If folder does not exist
 	- If `create_folder=True`, create a folder by the name `folder_name` and return created folder data.
 	- Return an empty list if `create_folder=False`.
-- `log=True` to enable status and error output for logging, otherwise `log=False`.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 
 #### **Return value:**
 - Type: Python List
@@ -114,19 +114,49 @@ def local_file_to_drive(self, dst_folder_id:str, file_path:str, update_dup=True,
 
 #### **Parameters:**
 - `dst_folder_id`: The ID of the Drive folder to upload the files to. It can also be your root Drive folder.
+- `file_path`: Path to the file to be uploaded.
+- `update_dup`: `True` to truncate existing file with the same name in the target folder. `False` to ignore existing files and allow duplicate files.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 
 #### **Method call:**
+```py
+target_drive.local_file_to_drive(
+	dst_folder_id:"1ABCdEfGH2IJK-LMnOpQ3RSTuv4WXYZab",
+	file_path:"/home/folder1/sample_file",
+	update_dup=True,
+	log=False
+)
+```
+
 #### **Use case:**
+Upload a file from local machine to Google Drive.
+
 #### **Return value:**
+No return value.
 
 ---
 
 ## bin_file_to_drive
+
 #### **Definition:**
+
+```py
+def bin_file_to_drive(self, dst_folder_id:str, file_data:List[Tuple], update_dup=True, log=False):
+```
+
 #### **Parameters:**
+- `dst_folder_id`: The ID of the Drive folder to upload the files to. It can also be your root Drive folder.
+- `file_data`: List of `(file_name, file_buffer)` pair. Can be obtained from [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
+- `update_dup`: `True` to truncate existing file with the same name in the target folder. `False` to ignore existing files and allow duplicate files.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
+
 #### **Method call:**
+
 #### **Use case:**
+Upload a file from binary buffer to Google Drive. Recommended use in conjunction with [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
+
 #### **Return value:**
+No return value.
 
 ---
 

@@ -85,7 +85,7 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 - `bq_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `sql_script`: File path to the SQL script to query data from BigQuery.
 - `replace_in_query`: Search and replace parts in your SQL script. Best for repititive queries.
-- `log`: Enable printing messages for logging.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
 #### **Function call:**
@@ -124,78 +124,6 @@ Pandas Dataframe containing query results.
 
 ---
 
-## df_to_csv_bin
-
-#### **Definition:**
-```py
-def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False):
-```
-
-#### **Parameters:**
-- `df`: The dataframe to be exported to binary CSV file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary CSV files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `sep`: The seperator for the binary CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
-- `outfile_name`: Name of the resulting binary CSV file.
-- `log`: Enable printing messages for logging.
-- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
-
-#### **Function call:**
-```py
-csv_bin_files = df_to_csv_bin(
-	df=df,
-	slice_row=100,
-	outfile_name="sales.csv",
-	sep='|', 
-	log=True,
-	ignore_error=False
-)
-```
-
-#### **Use case:**
-- Export Pandas Dataframe to binary CSV file.
-- Best used when writing large query results into CSV files that does not need to be stored locally. 
-- E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
-
-#### **Return value:**
-List of tuples in the form of `[(file_name, file_buffer)]`.
-
----
-
-## df_to_excel_bin
-
-#### **Definition:**
-```py
-def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False):
-```
-
-#### **Parameters:**
-- `df`: The dataframe to be exported to binary Excel file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary Excel files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `outfile_name`: Name of the resulting binary Excel file.
-- `log`: Enable printing messages for logging.
-- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
-
-#### **Function call:**
-```py
-excel_bin_files = df_to_excel_bin(
-	df=df,
-	slice_row:int,
-	outfile_name:str,
-	log=False,
-	ignore_eror=False
-):
-```
-
-#### **Use case:**
-- Export Pandas Dataframe to binary Excel file.
-- Best used when writing large query results into binary Excel files that does not need to be stored locally. 
-- E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
-
-#### **Return value:**
-List of tuples in the form of `[(file_name, file_buffer)]`.
-
----
-
 ## df_to_csv
 
 #### **Definition:**
@@ -209,7 +137,7 @@ def df_to_csv(df:pd.DataFrame, slice_row:int, outfile_path:str, sep:str=',', dlt
 - `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
 - `outfile_path`: Full path to the resulting CSV file.
 - `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
-- `log`: Enable printing messages for logging.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
 #### **Function call:**
@@ -244,7 +172,7 @@ def df_to_excel(df: pd.DataFrame, slice_row: int, outfile_path: str, log: bool =
 - `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
 - `outfile_path`: Full path to the resulting Excel file.
 - `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
-- `log`: Enable printing messages for logging.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
 #### **Function call:**
@@ -264,3 +192,77 @@ Export Pandas Dataframe data to a local Excel file.
 
 #### **Return value:**
 No return value.
+
+---
+
+## df_to_csv_bin
+
+#### **Definition:**
+```py
+def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',', log:bool=False, ignore_error:bool=False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to binary CSV file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary CSV files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `sep`: The seperator for the binary CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `outfile_name`: Name of the resulting binary CSV file.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+csv_bin_files = df_to_csv_bin(
+	df=df,
+	slice_row=100,
+	outfile_name="sales.csv",
+	sep='|', 
+	log=True,
+	ignore_error=False
+)
+```
+
+#### **Use case:**
+- Export Pandas Dataframe to binary CSV file.
+- Best used when writing large query results into CSV files that does not need to be stored locally.
+- This saves I/O overhead for workloads such as data export where files don't need to be stored in the machine as the binary files reside in memory during runtime.
+- E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
+
+#### **Return value:**
+List of tuples in the form of `[(file_name, file_buffer)]`.
+
+---
+
+## df_to_excel_bin
+
+#### **Definition:**
+```py
+def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False):
+```
+
+#### **Parameters:**
+- `df`: The dataframe to be exported to binary Excel file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary Excel files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `outfile_name`: Name of the resulting binary Excel file.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
+- `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
+
+#### **Function call:**
+```py
+excel_bin_files = df_to_excel_bin(
+	df=df,
+	slice_row:int,
+	outfile_name:str,
+	log=False,
+	ignore_eror=False
+):
+```
+
+#### **Use case:**
+- Export Pandas Dataframe to binary Excel file.
+- Best used when writing large query results into binary Excel files that does not need to be stored locally.
+This saves I/O overhead for workloads such as data export where files don't need to be stored in the machine as the binary files reside in memory during runtime.
+- E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
+
+#### **Return value:**
+List of tuples in the form of `[(file_name, file_buffer)]`.
