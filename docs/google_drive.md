@@ -39,13 +39,15 @@ target_drive = Google_Drive(service, is_shared_drive=True, main_drive_id="0ABcDe
 - `is_shared_drive`: `True` if the target Drive is a shared drive and `False` otherwise. This is because handling files in shared drives and owned drives is slightly different. 
 - `main_drive_id`: The folder ID of your root direcotry in Google Drive.
 
-4. Please refer to the [appendix]() for more information on Drive ID and Drive folder ID.
+4. Please refer to the [appendix](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#appendix) for more information on Drive ID and Drive folder ID.
 
 ---
 
 ### Methods
 
 ---
+
+## drive_autodetect_folders
 
 #### **Definition:**
 ```py
@@ -77,7 +79,7 @@ folder_data = target_drive.drive_autodetect_folders(
 
 #### **Return value:**
 - Type: Python List
-- Returns `[folder_id, folder_name, last modified]` as folder data if folder is found or created
+- Returns list containing folder data: `[folder_id, folder_name, last modified]` if folder is found or created
 - Returns an empty Python list if folder is not found and not created
 
 ---
@@ -149,7 +151,7 @@ There are 2 formats of Drive Ids:
 ##### **Parameters parsing:**
 - You neeed to parse the `DRIVE_ID` part of the link, as a string, into parameters containing `drive_id`.
 - In this case, the Drive ID is `0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456`.
-- E.g. `main_drive_id="0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456"` (from [`drive_autodetect_folders`]()).
+- E.g. `main_drive_id="0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456"` (from [`drive_autodetect_folders`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#drive_autodetect_folders)).
 
 ---
 
@@ -169,4 +171,4 @@ Each Drive folder is identified by a unique ID.
 
 #### **Parameters and parsing:**
 - You will always have to parse the `FOLDER_ID` part of the link, as a string, to any parameters containing `folder_id` regardless of if you are working on personal or shared drives.
-- E.g. `parent_folder_id` from [`drive_autodetect_folders`]() and `dst_folder_id` from [`local_file_to_drive`]().
+- E.g. `parent_folder_id` from [`drive_autodetect_folders`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#drive_autodetect_folders) and `dst_folder_id` from [`local_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#local_file_to_drive).
