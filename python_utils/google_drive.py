@@ -34,9 +34,10 @@ class Google_Drive:
 		else:
 			self.main_drive_id = main_drive_id
 
-	'''
-	Helper functions
-	'''
+	# ====================
+	# = Helper functions =
+	# ====================
+
 	# returns a list of duplicate file id and names
 	def drive_get_dup_files(self, dst_folder_id:str, file_name:str, log:bool=False) -> list:
 		query = f"""
@@ -97,9 +98,10 @@ class Google_Drive:
 				print(f"Error processing: {dup_files[0]['name']}\n{error}")
 			raise
 
-	'''
-	Search/Autodetect
-	'''
+	# ==========================
+	# = Search and autotdetect = 
+	# ==========================
+
 	# look for folder by folder name - user can choose to create folder if it does not exist yet
 	# parent_folder_id = folder id before the target folder
 	# return (folder_id, folder_name and last_modified)
@@ -181,9 +183,9 @@ class Google_Drive:
 		except Exception as error:
 			return []
 
-	'''
-	Upload files
-	'''
+	# ===============
+	# = File upload = 
+	# ===============
 
 	# uploads a locally stored file to Google Drive
 	def local_file_to_drive(self, dst_folder_id:str, file_path:str, update_dup=True, log=False):
@@ -283,9 +285,9 @@ class Google_Drive:
 			print(f'Upload failed for {file_metadata['name']}\n{error}') if log else 0
 			raise
 
-	'''
-	Read/download files
-	'''
+	# =================
+	# = File download =
+	# =================
 
 	def download_file_from_drive(self, dst_folder_id:str):
 		pass

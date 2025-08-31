@@ -3,8 +3,8 @@
 <!-- </h1> -->
 
 ## Set up
-1. Create a BigQuery client using your service account key
-2. You can now include the client in your function calls
+1. Create a BigQuery API client object using your service account key. The API client allows your Python script/programme to communicate with BigQuery.
+2. You can now include the API client object in your function calls.
 
 ```py
 from google.cloud import bigquery as bq
@@ -13,9 +13,11 @@ from google.oauth2 import service_account
 JSON_KEYS_PATH = '/home/directory-for-keys'
 SERVICE_ACCOUNT = f'{JSON_KEYS_PATH}/key.json'
 
+# retrieve account credentials and project id from the service account key
 credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT)
+
+# build BigQuery API client
 bq_client = bq.Client(credentials=credentials, project=credentials.project_id)
-service = build_drive_service(SERVICE_ACCOUNT)
 ```
 
 ---
@@ -28,7 +30,7 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, au
 ```
 
 #### **Parameters:**
-- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `bq_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `df`: The Pandas Dataframe containing the data to be uploaded to BigQuery.
 - `table_id`: Id of the BigQuery for the data to be uploaded to. Usually in `project_id.dataset_name_table_name`.
 - `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call).
@@ -80,7 +82,7 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 ```
 
 #### **Parameters:**
-- `bq_client`: BigQuery client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `bq_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `sql_script`: File path to the SQL script to query data from BigQuery.
 - `replace_in_query`: Search and replace parts in your SQL script. Best for repititive queries.
 - `log`: Enable printing messages for logging.
@@ -105,7 +107,7 @@ ORDER BY dept, Itemcode, Location
 </details>
 
 ```py
-bq_to_df(
+results_df = bq_to_df(
 	bq_client,
 	sql_script="/home/project/sql_scripts/script.sql",
 	replace_in_query=[(".table", ".table01"), ("cur_dept", "'1%'")],
@@ -139,7 +141,7 @@ def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',',
 
 #### **Function call:**
 ```py
-df_to_csv_bin(
+csv_bin_files = df_to_csv_bin(
 	df=df,
 	slice_row=100,
 	outfile_name="sales.csv",
@@ -175,7 +177,7 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 
 #### **Function call:**
 ```py
-df_to_excel_bin(
+excel_bin_files = df_to_excel_bin(
 	df=df,
 	slice_row:int,
 	outfile_name:str,
