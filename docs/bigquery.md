@@ -229,8 +229,7 @@ csv_bin_files = df_to_csv_bin(
 - E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
-- Type: List of tuples.
-- Returns data of the uploaded file in the form of `[(file_name, file_buffer)]`.
+No return value.
 
 ---
 
@@ -266,4 +265,4 @@ This saves I/O overhead for workloads such as data export where files don't need
 - E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
-List of tuples in the form of `[(file_name, file_buffer)]`.
+No return value.
