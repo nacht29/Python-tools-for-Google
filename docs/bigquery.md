@@ -22,6 +22,8 @@ bq_client = bq.Client(credentials=credentials, project=credentials.project_id)
 
 ---
 
+## **Functions**
+
 ## df_to_bq
 
 #### **Definition:**

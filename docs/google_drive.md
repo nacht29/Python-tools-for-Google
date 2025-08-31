@@ -43,9 +43,7 @@ target_drive = Google_Drive(service, is_shared_drive=True, main_drive_id="0ABcDe
 
 ---
 
-### Methods
-
----
+## **Methods**
 
 ## drive_autodetect_folders
 
