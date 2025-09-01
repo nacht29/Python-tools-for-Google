@@ -45,12 +45,12 @@ def file_to_bucket(storage_client, bucket_id:str, bucket_dir_path:str, file_type
 #### **Function call:**
 ```py
 file_to_bucket(
-    bucket_client,
-    bucket_id="my-first-bucket",
-    bucket_dir_path="folder1/folder2/folder3", # exclude gs://, file path avaliable for copy in Bucket
-    file_type=".csv",
-    mode="t",
-    log=True
+	bucket_client,
+	bucket_id="my-first-bucket",
+	bucket_dir_path="folder1/folder2/folder3", # exclude gs://, file path avaliable for copy in Bucket
+	file_type=".csv",
+	mode="t",
+	log=True
 )
 ```
 
@@ -90,12 +90,12 @@ csv_bin_files = df_to_csv_bin(
 )
 
 bin_file_to_bucket(
-    storage_client,
-    bucket_id:"my_bucket",
-    bucket_dir_path:"folder1/folder2",
-    file_data:csv_bin_files,
-    mode:'t',
-    log=True
+	storage_client,
+	bucket_id:"my_bucket",
+	bucket_dir_path:"folder1/folder2",
+	file_data:csv_bin_files,
+	mode:'t',
+	log=True
 )
 ```
 
@@ -115,14 +115,15 @@ def bucket_csv_to_bq(bq_client, bucket_dir_path:str, project_id:str, dataset_id:
 ```
 
 #### **Parameters:**
-- `bq_client` BigQuery API client object. Please refer to the [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up) section for [BigQuery related functions](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md) for more information.
-- `bucket_dir_path`: Path to the target directory in the Bucket. The file path is available for copy at the top.
+- `bq_client` BigQuery API client object. Please refer to the [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#set-up) section and BigQuery related functions in [bigquery.md](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md) for more information.
+- `bucket_filepath`: Path to the target CSV file in the Bucket.
 - `project_id`: Project ID for the target table.
 - `dataset_id`: Name of the dataset that stores the target table.
 - `table_id`: Name of the target table. This combined with `project_id` and `dataset_id` will form the complete BigQuery table ID, in the form of `project_id.dataset.table`.
 - `write_mode`: `'a'` to append to table and `'t'` to truncate the table during data loading.
 - `skip_leading_row`: `1` to skip the first row of the CSV file which is usually the header. `0` to include the header as well (not recommended).
-- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call]() on how to define a BigQuery schema in Python code.
+- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#function-call-2) on how to define a BigQuery schema in Python code.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
 
 #### **Function call:**
 
@@ -143,15 +144,61 @@ schema = [
 
 </details>
 
+```py
+bucket_csv_to_bq(
+	bq_client,
+	bucket_filepath:"folder1/folder2/sample.csv",
+	project_id:"my_project",
+	dataset_id:"dataset1",
+	table_id:"master_tab1e",
+	write_mode:'t',
+	skip_leading_rows=1,
+	schema=schema,
+	log=False
+)
+```
+
 #### **Use case:**
+Uploads data from CSV files in Google Cloud Storage Bucket to BigQuery.
+
 #### **Return value:**
+No return value.
 
 ---
 
 ## bucket_excel_to_bq
 
 #### **Definition:**
+```py
+def bucket_excel_to_bq(bq_client, bucket_filepath:str, project_id:str, dataset_id:str, table_id:str, write_mode:str, schema:Optional[List[bq.SchemaField]]=None, log:bool=False) -> None:
+```
+
 #### **Parameters:**
+- `bq_client` BigQuery API client object. Please refer to the [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#set-up) section and BigQuery related functions in [bigquery.md](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md) for more information.
+- `bucket_filepath`: Path to the target Excel file in the Bucket.
+- `project_id`: Project ID for the target table.
+- `dataset_id`: Name of the dataset that stores the target table.
+- `table_id`: Name of the target table. This combined with `project_id` and `dataset_id` will form the complete BigQuery table ID, in the form of `project_id.dataset.table`.
+- `write_mode`: `'a'` to append to table and `'t'` to truncate the table during data loading.
+- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#function-call-2) on how to define a BigQuery schema in Python code.
+- `log`: `True` to enable printing messages for logging. `False` otherwise.
+
 #### **Function call:**
+```py
+bucket_excel_to_bq(
+	bq_client,
+	bucket_filepath:"folder1/folder2/sample.xlsx",
+	project_id:"my_project",
+	dataset_id:"dataset1",
+	table_id:"master_tab1e",
+	write_mode:'t',
+	schema=schema,
+	log=False
+)
+```
+
 #### **Use case:**
+Uploads data from Excel files in Google Cloud Storage Bucket to BigQuery.
+
 #### **Return value:**
+No return value.
