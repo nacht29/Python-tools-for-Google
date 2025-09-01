@@ -5,18 +5,30 @@
 Building a Python package for working with Google Services, including GCP and Google Drive
 
 ## Set up
-1. Install the Python package as a local directory
-2. Copy the package to your current working directory
-3. Append the package to your path
+1. Create and activate a Python virtual environment in your working directory:
+
+	```bash
+	python -m venv myvenv
+	source myvenv/bin/activate
+	```
+
+2. Execute the bash script to install required dependencies:
+	```bash
+	bash dependencies.sh
+	```
+
+3. Clone the Python package as a local directory.
+4. Copy the package to your current working directory.
+5. Append the package to your path.
 	```
 	sys.path.append("/mnt/c/Users/Asus/Desktop/cloud-space-workspace/Taylors/taylors-data-poc")
 	```
-4. Import the functions into your code
+6. Import the functions into your code
 	```py
 	from python_utils.bigquery import *
 	from python_utils.utils import *
 	```
-5. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects
+7. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects
 
 ---
 
