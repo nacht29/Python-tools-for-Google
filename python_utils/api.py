@@ -1,7 +1,8 @@
 import requests
 from typing import Any
 
-def gen_access_token(token_url:str, client_id:str, client_secret:str, api_base_url:str):
+# returns a string access token 
+def gen_access_token(token_url:str, client_id:str, client_secret:str, api_base_url:str) -> str:
 	try:
 		token_request = requests.post(
 			token_url,
@@ -17,11 +18,11 @@ def gen_access_token(token_url:str, client_id:str, client_secret:str, api_base_u
 	access_token = token_request.json()['access_token']
 	return access_token
 
-def api_get(access_token:str, api_url:str, content_type:str=None, params:dict=None):
-	headers = {
-		'Authorization': f'Bearer {access_token}'
-	}
-
+def api_get(access_token:str, api_url:str, content_type:str=None, params:dict=None) -> Any:
+	# define headers
+	headers = {}
+	if access_token:
+		headers['Authorization'] = f'Bearer {access_token}'
 	if content_type:
 		headers['Content-Type'] = content_type
 
