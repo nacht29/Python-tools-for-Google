@@ -31,13 +31,13 @@ storage_client = storage.Client(credentials=credentials, project=credentials.pro
 
 #### **Definition:**
 ```py
-def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type:str, file_path:str, mode:str, log=False):
+def file_to_bucket(storage_client, bucket_id:str, bucket_dir_path:str, file_type:str, file_path:str, mode:str, log=False):
 ```
 
 #### **Parameters:**
 - `storage_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#set-up).
 - `bucket_id`: Unique name (Id) of your Bucket.
-- `bucket_filepath`: Path to the target directory in the Bucket. The file path is available for copy at the top.
+- `bucket_dir_path`: Path to the target directory in the Bucket. The file path is available for copy at the top.
 - `file_type`: Type of file to upload.
 - `mode`: 't' to truncate same-name files, 'i' to ignore and create a duplicate.
 - `log`: Enable printing messages for logging.
@@ -47,7 +47,7 @@ def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type
 file_to_bucket(
     bucket_client,
     bucket_id="my-first-bucket",
-    bucket_filepath="folder1/folder2/folder3", # exclude gs://, file path avaliable for copy in Bucket
+    bucket_dir_path="folder1/folder2/folder3", # exclude gs://, file path avaliable for copy in Bucket
     file_type=".csv",
     mode="t",
     log=True
@@ -66,13 +66,13 @@ No return value.
 
 #### **Definition:**
 ```py
-def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_data:List[Tuple], mode:str, log=False):
+def bin_file_to_bucket(storage_client, bucket_id:str, bucket_dir_path:str, file_data:List[Tuple], mode:str, log=False):
 ```
 
 #### **Parameters:**
 - `storage_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#set-up).
 - `bucket_id`: Unique name (Id) of your Bucket.
-- `bucket_filepath`: Path to the target directory in the Bucket. The file path is available for copy at the top.
+- `bucket_dir_path`: Path to the target directory in the Bucket. The file path is available for copy at the top.
 - `file_data`: List of file name and file buffer pair: `[(file_name, file_buffer)]`, can be obtained from [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
 - `mode`: 't' to truncate same-name files, 'i' to ignore and create a duplicate.
 - `log`: Enable printing messages for logging.
@@ -92,7 +92,7 @@ csv_bin_files = df_to_csv_bin(
 bin_file_to_bucket(
     storage_client,
     bucket_id:"my_bucket",
-    bucket_filepath:"folder1/folder2",
+    bucket_dir_path:"folder1/folder2",
     file_data:csv_bin_files,
     mode:'t',
     log=True
@@ -104,3 +104,54 @@ Upload files from memory (binary buffers) to GCS Bucket.
 
 #### **Return value:**
 No return value.
+
+---
+
+## bucket_csv_to_bq
+
+#### **Definition:**
+```py
+def bucket_csv_to_bq(bq_client, bucket_dir_path:str, project_id:str, dataset_id:str, table_id:str, write_mode:str, skip_leading_rows:int=1, schema:Optional[List[bq.SchemaField]]=None, log:bool=False) -> None:
+```
+
+#### **Parameters:**
+- `bq_client` BigQuery API client object. Please refer to the [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up) section for [BigQuery related functions](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md) for more information.
+- `bucket_dir_path`: Path to the target directory in the Bucket. The file path is available for copy at the top.
+- `project_id`: Project ID for the target table.
+- `dataset_id`: Name of the dataset that stores the target table.
+- `table_id`: Name of the target table. This combined with `project_id` and `dataset_id` will form the complete BigQuery table ID, in the form of `project_id.dataset.table`.
+- `write_mode`: `'a'` to append to table and `'t'` to truncate the table during data loading.
+- `skip_leading_row`: `1` to skip the first row of the CSV file which is usually the header. `0` to include the header as well (not recommended).
+- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call]() on how to define a BigQuery schema in Python code.
+
+#### **Function call:**
+
+<details>
+<summary>Expand to see how to define schema for BigQuery upload</summary>
+
+Note: you can store the schema definitions in [formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/python_utils/formats.py). See documentation [here](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md).
+
+```py
+from google.cloud import bigquery as bq
+
+schema = [
+	bq.SchemaField("primary_column_name", "INTEGER", mode="REQUIRED"),
+	bq.SchemaField("column2", "STRING", mode="NULLABLE"),
+	bq.SchemaField("column3", "BOOLEAN", mode="NULLABLE")
+]
+```
+
+</details>
+
+#### **Use case:**
+#### **Return value:**
+
+---
+
+## bucket_excel_to_bq
+
+#### **Definition:**
+#### **Parameters:**
+#### **Function call:**
+#### **Use case:**
+#### **Return value:**

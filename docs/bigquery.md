@@ -33,16 +33,16 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, au
 ```
 
 #### **Parameters:**
-- `bq_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `bq_client`: BigQuery API client object created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `df`: The Pandas Dataframe containing the data to be uploaded to BigQuery.
 - `table_id`: Id of the BigQuery for the data to be uploaded to. Usually in `project_id.dataset_name_table_name`.
-- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call).
+- `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call) on how to define a BigQuery schema in Python code.
 - `autodetect`: If `True`, automatically creates a new table if the current `table_id` doesn't exist.
 
 #### **Function call:**
 
 <details>
-<summary>Expand to see how to define schema for BQ upload</summary>
+<summary>Expand to see how to define schema for BigQuery upload</summary>
 
 Note: you can store the schema definitions in [formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/python_utils/formats.py). See documentation [here](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md).
 
@@ -85,7 +85,7 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 ```
 
 #### **Parameters:**
-- `bq_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
+- `bq_client`: BigQuery API client object created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `sql_script`: File path to the SQL script to query data from BigQuery.
 - `replace_in_query`: Search and replace parts in your SQL script. Best for repititive queries.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
@@ -233,7 +233,7 @@ csv_bin_files = df_to_csv_bin(
 
 #### **Return value:**
 - Type: List of tuples.
-- Returns a list of file name and file buffer pair: `[(file_name, file_buffer)]`. The file buffer contains the binary data of the output CSV file.
+- Returns a list of file name and file buffer pair: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output CSV file.
 
 ---
 
@@ -270,4 +270,4 @@ This saves I/O overhead for workloads such as data export where files don't need
 
 #### **Return value:**
 - Type: List of tuples.
-- Returns a list of file name and file buffer pair: `[(file_name, file_buffer)]`. The file buffer contains the binary data of the output Excel file.
+- Returns a list of file name and file buffer pair: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output Excel file.

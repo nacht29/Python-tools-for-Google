@@ -11,7 +11,7 @@ OS = os.name
 File data to BQ (Excel/CSV)
 '''
 
-def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type:str, file_path:str, mode:str, log=False):
+def file_to_bucket(storage_client, bucket_id:str, bucket_dir_path:str, file_type:str, file_path:str, mode:str, log=False):
 	# parse error handling
 	if mode not in ('i', 't'):
 		raise ValueError("Incorrect write mode. Must be 'i' for ignore, or 't' for truncate")
@@ -27,7 +27,7 @@ def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type
 	# constructing full file path in bucket based on file name and base bucket path
 	# os.path.basename extracts the file name from the full file path
 	file_name = os.path.basename(file_path)
-	full_bucket_path = f'{bucket_filepath}/{file_name}' if bucket_filepath else file_name
+	full_bucket_path = f'{bucket_dir_path}/{file_name}' if bucket_dir_path else file_name
 
 	# upload process
 	try:
@@ -41,12 +41,12 @@ def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type
 
 		# upload blob
 		blob.upload_from_filename(file_path, content_type=content_data[file_type]['content_type'])
-		print(f"Uploaded {content_data[file_type]['type_name']} {file_path} to {bucket_filepath if bucket_filepath else '/'}") if log else 0
+		print(f"Uploaded {content_data[file_type]['type_name']} {file_path} to {bucket_dir_path if bucket_dir_path else '/'}") if log else 0
 	except Exception:
-		print(f"Failed to upload {content_data[file_type]['type_name']} {file_path} to {bucket_filepath if bucket_filepath else '/'}") if log else 0
+		print(f"Failed to upload {content_data[file_type]['type_name']} {file_path} to {bucket_dir_path if bucket_dir_path else '/'}") if log else 0
 		raise
 
-def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_data:List[Tuple], mode:str, log=False):
+def bin_file_to_bucket(storage_client, bucket_id:str, bucket_dir_path:str, file_data:List[Tuple], mode:str, log=False):
 	# parse error handling
 	if mode not in ('i', 't'):
 		raise ValueError("Incorrect write mode. Must be 'i' for ignore, or 't' for truncate")
@@ -58,7 +58,7 @@ def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_
 			raise ValueError(f'Invalid file type. Supported: {list(content_data.keys())}')
 		
 		# define full file path in Bucket
-		full_bucket_path = f'{bucket_filepath.rstrip('/')}/{file_name}' if bucket_filepath else file_name
+		full_bucket_path = f'{bucket_dir_path.rstrip('/')}/{file_name}' if bucket_dir_path else file_name
 
 		# upload process
 		try:
@@ -75,10 +75,10 @@ def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_
 			blob.upload_from_file(file_buffer, content_type=content_data[file_type]['content_type'])
 
 			if log:
-				print(f"Uploaded {content_data[file_type]['type_name']} {file_name} to {bucket_filepath if bucket_filepath else '/'}")
+				print(f"Uploaded {content_data[file_type]['type_name']} {file_name} to {bucket_dir_path if bucket_dir_path else '/'}")
 		except Exception:
 			if log:
-				print(f"Failed to upload {content_data[file_type]['type_name']} {file_name} to {bucket_filepath if bucket_filepath else '/'}")
+				print(f"Failed to upload {content_data[file_type]['type_name']} {file_name} to {bucket_dir_path if bucket_dir_path else '/'}")
 			raise
 
 def bucket_csv_to_bq(bq_client, bucket_filepath:str, project_id:str, dataset_id:str, table_id:str, write_mode:str, skip_leading_rows:int=1, schema:Optional[List[bq.SchemaField]]=None, log:bool=False) -> None:
