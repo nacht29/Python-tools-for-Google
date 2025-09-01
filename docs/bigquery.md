@@ -35,6 +35,7 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, au
 #### **Parameters:**
 - `bq_client`: BigQuery API client object created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `df`: The Pandas Dataframe containing the data to be uploaded to BigQuery.
+- `mode`: `'a'` to append to table and `'t'` to truncate table.
 - `table_id`: Id of the BigQuery for the data to be uploaded to. Usually in `project_id.dataset_name_table_name`.
 - `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call) on how to define a BigQuery schema in Python code.
 - `autodetect`: If `True`, automatically creates a new table if the current `table_id` doesn't exist.
@@ -62,8 +63,8 @@ schema = [
 df_to_bq(
 	bq_client,
 	df=my_df,
-	table_id:str,
-	mode:str,
+	table_id:"my_project.dataset.table",
+	mode:'a',
 	schema=schema,
 	autodetect:bool=True
 )
