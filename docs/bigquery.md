@@ -4,6 +4,7 @@
 
 ## Set up
 1. Create a BigQuery API client object using your service account key. The API client allows your Python script/programme to communicate with BigQuery.
+
 2. You can now include the API client object in your function calls.
 
 ```py
@@ -231,7 +232,8 @@ csv_bin_files = df_to_csv_bin(
 - E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
-No return value.
+- Type: List of tuples.
+- Returns a list of file name and file buffer pair: `[(file_name, file_buffer)]`. The file buffer contains the binary data of the output CSV file.
 
 ---
 
@@ -267,4 +269,5 @@ This saves I/O overhead for workloads such as data export where files don't need
 - E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
-No return value.
+- Type: List of tuples.
+- Returns a list of file name and file buffer pair: `[(file_name, file_buffer)]`. The file buffer contains the binary data of the output Excel file.

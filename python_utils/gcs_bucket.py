@@ -3,6 +3,7 @@ import calendar
 from typing import Optional, List
 from google.cloud import bigquery as bq
 from python_utils.formats import content_data
+from typing import List, Tuple
 
 OS = os.name
 
@@ -10,7 +11,7 @@ OS = os.name
 File data to BQ (Excel/CSV)
 '''
 
-def file_to_bucket(bucket_client, bucket_id:str, bucket_filepath:str, file_type:str, file_path:str, mode:str, log=False) -> None:
+def file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_type:str, file_path:str, mode:str, log=False):
 	# parse error handling
 	if mode not in ('i', 't'):
 		raise ValueError("Incorrect write mode. Must be 'i' for ignore, or 't' for truncate")
@@ -26,16 +27,16 @@ def file_to_bucket(bucket_client, bucket_id:str, bucket_filepath:str, file_type:
 	# constructing full file path in bucket based on file name and base bucket path
 	# os.path.basename extracts the file name from the full file path
 	file_name = os.path.basename(file_path)
-	full_path = f'{bucket_filepath}/{file_name}' if bucket_filepath else file_name
+	full_bucket_path = f'{bucket_filepath}/{file_name}' if bucket_filepath else file_name
 
 	# upload process
 	try:
 		# create file blob for upload - blob is a binary representation of the file to be uploaded
-		blob = bucket_client.bucket(bucket_id).blob(full_path)
+		blob = storage_client.bucket(bucket_id).blob(full_bucket_path)
 
 		# skip upload if in ignore mode and file exists
 		if mode == 'i' and blob.exists():
-			print(f'Skipping file {full_path} as it already exists.') if log else 0
+			print(f'Skipping file {full_bucket_path} as it already exists.') if log else 0
 			return
 
 		# upload blob
@@ -44,6 +45,41 @@ def file_to_bucket(bucket_client, bucket_id:str, bucket_filepath:str, file_type:
 	except Exception:
 		print(f"Failed to upload {content_data[file_type]['type_name']} {file_path} to {bucket_filepath if bucket_filepath else '/'}") if log else 0
 		raise
+
+def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_data:List[Tuple], mode:str, log=False):
+	# parse error handling
+	if mode not in ('i', 't'):
+		raise ValueError("Incorrect write mode. Must be 'i' for ignore, or 't' for truncate")
+
+	# file integrity - check file type
+	for file_name, file_buffer in file_data:
+		file_type = os.path.splitext(file_name)[1]
+		if file_type not in content_data:
+			raise ValueError(f'Invalid file type. Supported: {list(content_data.keys())}')
+		
+		# define full file path in Bucket
+		full_bucket_path = f'{bucket_filepath.rstrip('/')}/{file_name}' if bucket_filepath else file_name
+
+		# upload process
+		try:
+			# create file blob for upload - blob is a binary representation of the file to be uploaded
+			blob = storage_client.bucket(bucket_id).blob(full_bucket_path)
+
+			# skip upload if in ignore mode and file exists
+			if mode == 'i' and blob.exists():
+				print(f'Skipping file {full_bucket_path} as it already exists.') if log else 0
+				continue
+
+			# upload blob
+			file_buffer.seek(0)
+			blob.upload_from_file(file_buffer, content_type=content_data[file_type]['content_type'])
+
+			if log:
+				print(f"Uploaded {content_data[file_type]['type_name']} {file_name} to {bucket_filepath if bucket_filepath else '/'}")
+		except Exception:
+			if log:
+				print(f"Failed to upload {content_data[file_type]['type_name']} {file_name} to {bucket_filepath if bucket_filepath else '/'}")
+			raise
 
 def bucket_csv_to_bq(bq_client, bucket_filepath:str, project_id:str, dataset_id:str, table_id:str, write_mode:str, skip_leading_rows:int=1, schema:Optional[List[bq.SchemaField]]=None, log:bool=False) -> None:
 	if write_mode not in ('a', 't'):

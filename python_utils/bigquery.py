@@ -237,6 +237,8 @@ def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',',
 				print(f"Error creating {new_outfile_name}.\n\n{error}")
 				if not ignore_error:
 					raise
+	
+	return csv_buffers
 
 # export DF as Excel binary file
 def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=False) -> List[Tuple]:
@@ -291,3 +293,5 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 			print(f"Failed to create xlsx binary file for {new_outfile_name}.\n\n{error}")
 			if not ignore_eror:
 				raise
+	
+	return excel_buffers
