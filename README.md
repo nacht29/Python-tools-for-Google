@@ -23,12 +23,12 @@ Building a Python package for working with Google Services, including GCP and Go
 	```
 	sys.path.append("/mnt/c/Users/Asus/Desktop/cloud-space-workspace/Taylors/taylors-data-poc")
 	```
-6. Import the functions into your code
+6. Import the functions into your code:
 	```py
 	from python_utils.bigquery import *
 	from python_utils.utils import *
 	```
-7. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects
+7. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects.
 
 ---
 
