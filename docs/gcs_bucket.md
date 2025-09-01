@@ -59,3 +59,48 @@ Load local files to GCS Bucket
 
 #### **Return value:**
 No return value.
+
+---
+
+## bin_file_to_bucket
+
+#### **Definition:**
+```py
+def bin_file_to_bucket(storage_client, bucket_id:str, bucket_filepath:str, file_data:List[Tuple], mode:str, log=False):
+```
+
+#### **Parameters:**
+- `storage_client`: BigQuery API client created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md#set-up).
+- `bucket_id`: Unique name (Id) of your Bucket.
+- `bucket_filepath`: Path to the target directory in the Bucket. The file path is available for copy at the top.
+- `file_data`: List of file name and file buffer pair: `[(file_name, file_buffer)]`, can be obtained from [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
+- `mode`: 't' to truncate same-name files, 'i' to ignore and create a duplicate.
+- `log`: Enable printing messages for logging.
+
+#### **Function call:**
+```py
+# example value: [(1.csv, csv_buffer1), (2.csv, csv_buffer2)]
+csv_bin_files = df_to_csv_bin(
+	df=df,
+	slice_row=100,
+	outfile_name="sales.csv",
+	sep='|', 
+	log=True,
+	ignore_error=False
+)
+
+bin_file_to_bucket(
+    storage_client,
+    bucket_id:"my_bucket",
+    bucket_filepath:"folder1/folder2",
+    file_data:csv_bin_files,
+    mode:'t',
+    log=True
+)
+```
+
+#### **Use case:**
+Upload files from memory (binary buffers) to GCS Bucket.
+
+#### **Return value:**
+No return value.
