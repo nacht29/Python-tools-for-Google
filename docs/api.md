@@ -3,10 +3,10 @@
 ## Set up
 
 1. Include the following:
-        - OAuth2 client credentials
-        - Access token URL
-        - Base URL for API endpoints, to easily combine with the API endpoint URLs
-2. Recommended: store the client credentials in the environment or use Secret Manager and access the secret using service account credentials.
+   - OAuth2 client credentials
+   - Access token URL
+   - Base URL for API endpoints, to easily combine with the API endpoint URLs
+3. Recommended: store the client credentials in the environment or use Secret Manager and access the secret using service account credentials.
 
 ```py
 CLIENT_ID = 'E7F82A1B-CC34-4B21-A855-D3298BF751CD'
@@ -91,4 +91,5 @@ Send API GET requests and receive a data payload.
 	- `dict` if the response contains a JSON object.
 	- `list` if the response contains a JSON array.
 	- Other JSON types (`str`, `int`, `float`, `bool`) depending on API response.
+
 - Returns None if the HTTP request fails (connection error, timeout, etc.).
