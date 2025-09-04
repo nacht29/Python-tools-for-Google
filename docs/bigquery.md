@@ -3,7 +3,7 @@
 <!-- </h1> -->
 
 ## Set up
-1. Create a BigQuery API client object using your service account key. The API client allows your Python script/programme to communicate with BigQuery.
+1. Create a BigQuery API client object using your service account key. The API client allows your Python script/program to communicate with BigQuery.
 
 2. You can now include the API client object in your function calls.
 
@@ -34,9 +34,9 @@ def df_to_bq(bq_client, df:pd.DataFrame, table_id:str, mode:str, schema=None, au
 
 #### **Parameters:**
 - `bq_client`: BigQuery API client object created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
-- `df`: The Pandas Dataframe containing the data to be uploaded to BigQuery.
+- `df`: The Pandas DataFrame containing the data to be uploaded to BigQuery.
 - `mode`: `'a'` to append to table and `'t'` to truncate table.
-- `table_id`: Id of the BigQuery for the data to be uploaded to. Usually in `project_id.dataset_name_table_name`.
+- `table_id`: ID of the BigQuery table for the data to be uploaded. Usually in `project_id.dataset_name.table_name`.
 - `schema`: Schema definition for the data to be uploaded. This hard-sets the data type of the uploaded data. See the expandable part in [function call](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#function-call) on how to define a BigQuery schema in Python code.
 - `autodetect`: If `True`, automatically creates a new table if the current `table_id` doesn't exist.
 
@@ -71,7 +71,7 @@ df_to_bq(
 ```
 
 #### **Use case:**
-Loads data from Python Pandas Dataframe to BigQuery.
+Loads data from a Python Pandas DataFrame to BigQuery.
 
 #### **Return value:**
 No return value.
@@ -88,7 +88,7 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 #### **Parameters:**
 - `bq_client`: BigQuery API client object created during [set up](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#set-up).
 - `sql_script`: File path to the SQL script to query data from BigQuery.
-- `replace_in_query`: Search and replace parts in your SQL script. Best for repititive queries.
+- `replace_in_query`: Search and replace parts in your SQL script. Best for repetitive queries.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
 
@@ -97,7 +97,7 @@ def bq_to_df(bq_client, sql_script:str, replace_in_query:list=[], log=False, ign
 <summary>Example query (with parts to replace)</summary>
 
 - Replace `cur_dept` with `"1%"`, `"2%"` etc. The function can then be called in a for loop to query for each department.
-- Replace table_id `project_id.dataset.table` with `project_id.dataset.table01`. The dunction can be called in a for loop to query for table 01-05.
+ - Replace table_id `project_id.dataset.table` with `project_id.dataset.table01`. The function can be called in a for loop to query for table 01-05.
 
 ```sql
 SELECT *
@@ -121,10 +121,10 @@ results_df = bq_to_df(
 ```
 
 #### **Use case:**
-Extract BigQuery query results into a Pandas Dataframe.
+Extract BigQuery query results into a Pandas DataFrame.
 
 #### **Return value:**
-Pandas Dataframe containing query results.
+Pandas DataFrame containing query results.
 
 ---
 
@@ -136,9 +136,9 @@ def df_to_csv(df:pd.DataFrame, slice_row:int, outfile_path:str, sep:str=',', dlt
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to local CSV file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `sep`: The seperator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `df`: The DataFrame to be exported to a local CSV file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a DataFrame containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1,000,000 (0 = no slicing).
+- `sep`: The separator for the CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
 - `outfile_path`: Full path to the resulting CSV file.
 - `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
@@ -158,7 +158,7 @@ df_to_csv(
 ```
 
 #### **Use case:**
-Export Pandas Dataframe data to a local CSV file.
+Export Pandas DataFrame data to a local CSV file.
 
 #### **Return value:**
 No return value.
@@ -172,8 +172,8 @@ def df_to_excel(df: pd.DataFrame, slice_row: int, outfile_path: str, log: bool =
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to local Excel file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `df`: The DataFrame to be exported to a local Excel file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a DataFrame containing 100 rows will produce 10 output files, each with 10 different rows of data. Accept values 0 to 1,000,000 (0 = no slicing).
 - `outfile_path`: Full path to the resulting Excel file.
 - `dlt_dir`: `True` to remove the output folder for the local files. `False` otherwise.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
@@ -192,7 +192,7 @@ df_to_excel(
 ```
 
 #### **Use case:**
-Export Pandas Dataframe data to a local Excel file.
+Export Pandas DataFrame data to a local Excel file.
 
 #### **Return value:**
 No return value.
@@ -207,9 +207,9 @@ def df_to_csv_bin(df:pd.DataFrame, slice_row:int, outfile_name:str, sep:str=',',
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to binary CSV file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary CSV files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
-- `sep`: The seperator for the binary CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
+- `df`: The DataFrame to be exported to a binary CSV file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a DataFrame containing 100 rows will produce 10 binary CSV files, each with 10 different rows of data. Accept values 0 to 1,000,000 (0 = no slicing).
+- `sep`: The separator for the binary CSV file. Uses comma `,` by default but can be changed to `|` or other symbols if the data contains commas.
 - `outfile_name`: Name of the resulting binary CSV file.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
@@ -227,14 +227,14 @@ csv_bin_files = df_to_csv_bin(
 ```
 
 #### **Use case:**
-- Export Pandas Dataframe to binary CSV file.
-- Best used when writing large query results into CSV files that does not need to be stored locally.
+ - Export Pandas DataFrame to binary CSV file.
+ - Best used when writing large query results into CSV files that do not need to be stored locally.
 - This saves I/O overhead for workloads such as data export where files don't need to be stored in the machine as the binary files reside in memory during runtime.
 - E.g. Exporting query results as CSV to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
 - Type: List of tuples.
-- Returns a list of file name and file buffer pair: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output CSV file.
+ - Returns a list of file name and file buffer pairs: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output CSV file.
 
 ---
 
@@ -246,8 +246,8 @@ def df_to_excel_bin(df, slice_row:int, outfile_name:str, log=False, ignore_eror=
 ```
 
 #### **Parameters:**
-- `df`: The dataframe to be exported to binary Excel file.
-- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a dataframe containing 100 rows will produce 10 binary Excel files, each with 10 different rows of data. Accept values 0 to 1000000 (0 = no slicing).
+- `df`: The DataFrame to be exported to a binary Excel file.
+- `slice_row`: Slice the data by every n rows. E.g. `slice_row = 10` from a DataFrame containing 100 rows will produce 10 binary Excel files, each with 10 different rows of data. Accept values 0 to 1,000,000 (0 = no slicing).
 - `outfile_name`: Name of the resulting binary Excel file.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 - `ignore_error`: `True` to continue the extraction process even if error occurs. `False` otherwise.
@@ -264,11 +264,12 @@ excel_bin_files = df_to_excel_bin(
 ```
 
 #### **Use case:**
-- Export Pandas Dataframe to binary Excel file.
-- Best used when writing large query results into binary Excel files that does not need to be stored locally.
+ - Export Pandas DataFrame to binary Excel file.
+ - Best used when writing large query results into binary Excel files that do not need to be stored locally.
 This saves I/O overhead for workloads such as data export where files don't need to be stored in the machine as the binary files reside in memory during runtime.
 - E.g. Exporting query results as Excel to Google Drive. This is used in conjunction with the [`bin_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#bin_file_to_drive) function.
 
 #### **Return value:**
 - Type: List of tuples.
-- Returns a list of file name and file buffer pair: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output Excel file.
+ - Returns a list of file name and file buffer pairs: `[(file_name1, file_buffer1), (file_name2, file_buffer2)]`. The file buffer contains the binary data of the output Excel file.
+

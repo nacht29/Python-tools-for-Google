@@ -3,9 +3,9 @@
 ## Set up
 
 1. Include the following:
-	- OAuth2 client credentials 
-	- Access token url
-	- Base url for API endpoints, to easily combine with the API endpoint urls
+        - OAuth2 client credentials
+        - Access token URL
+        - Base URL for API endpoints, to easily combine with the API endpoint URLs
 2. Recommended: store the client credentials in the environment or use Secret Manager and access the secret using service account credentials.
 
 ```py
@@ -25,10 +25,10 @@ def gen_access_token(token_url:str, client_id:str, client_secret:str, api_base_u
 ```
 
 #### **Parameters:**
-- `token_url`: The url used to generate access token using OAuth2 to send API requests.
+- `token_url`: The URL used to generate an access token using OAuth2 to send API requests.
 - `client_id`: ID or username of the OAuth2 client.
-- `client_secret`: Oauth2 client password.
-- `api_base_url`: Base url for all API endpoints you are working with.
+- `client_secret`: OAuth2 client password.
+- `api_base_url`: Base URL for all API endpoints you are working with.
 
 #### **Function call:**
 ```py
@@ -41,11 +41,11 @@ access_token = gen_access_token(
 ```
 
 #### **Use case:**
-Generate access token based on OAuth2 Client credentials. The token is used for authentication when sending API requests.
+Generate an access token based on OAuth2 client credentials. The token is used for authentication when sending API requests.
 
 #### **Return value:**
 - Type: string
-- Returns a string acces token to be used when sending API requests.
+- Returns a string access token to be used when sending API requests.
 
 
 ---
@@ -58,8 +58,8 @@ def api_get(access_token:str, api_url:str, content_type:str=None, params:dict=No
 ```
 
 #### **Parameters:**
-- `access_token`: Access toke string generated from [`gen_access_token`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md#gen_access_token).
-- `api_url`: The url of the API endpoint your script/programme is communicating with.
+- `access_token`: Access token string generated from [`gen_access_token`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md#gen_access_token).
+- `api_url`: The URL of the API endpoint your script/program is communicating with.
 - `content_type`: The content type of the data payload to be received. The standard is `'application/json'`.
 
 #### **Function call:**
@@ -83,7 +83,7 @@ api_response = api_get(
 ```
 
 #### **Use case:**
-Send API get requests and receive a data payload.
+Send API GET requests and receive a data payload.
 
 #### **Return value:**
 - Type: Any
