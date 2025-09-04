@@ -2,9 +2,9 @@
 
 ## Set up
 
-1. Add a service account to the target Google Drive an editor. 
+1. Add a service account to the target Google Drive as an editor.
 
-2. Create a Google Drive API client service object using the service account key. This allows your Python script/programme to communicate with Google Drive.
+2. Create a Google Drive API client service object using the service account key. This allows your Python script/program to communicate with Google Drive.
 
 ```py
 from python_utils.google_drive import build_drive_service
@@ -37,7 +37,7 @@ target_drive = Google_Drive(service, is_shared_drive=True, main_drive_id="0ABcDe
 
 **Parameters:**
 - `is_shared_drive`: `True` if the target Drive is a shared drive and `False` otherwise. This is because handling files in shared drives and owned drives is slightly different. 
-- `main_drive_id`: The folder ID of your root direcotry in Google Drive.
+- `main_drive_id`: The folder ID of your root directory in Google Drive.
 
 4. Please refer to the [appendix](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#appendix) for more information on Drive ID and Drive folder ID.
 
@@ -53,8 +53,8 @@ def drive_autodetect_folders(self, parent_folder_id:str, folder_name:str, create
 ```
 
 #### **Parameters:**
-- `parent_folder_id`: The folder ID preceeding your target folder. E.g. you are searching/creating the for `folder1/folder2`, you need to provide the ID of `folder1/`. 
-- `folder_name`: Name of the target folder you care seaching/creating.
+- `parent_folder_id`: The folder ID preceding your target folder. For example, if you are searching or creating `folder1/folder2`, you need to provide the ID of `folder1/`.
+- `folder_name`: Name of the target folder you are searching or creating.
 - `create_folder`: `True` to create a folder with the name `folder_name` if the folder with `folder_name` isn't found in the parent folder.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 
@@ -70,7 +70,7 @@ folder_data = target_drive.drive_autodetect_folders(
 #### **Use case:**
 - Search for folder by name in target Drive folder.
 - If folder already exists, return found folder data.
-- If folder does not exist
+- If the folder does not exist:
 	- If `create_folder=True`, create a folder by the name `folder_name` and return created folder data.
 	- Return an empty list if `create_folder=False`.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
@@ -89,7 +89,7 @@ def drive_search_filename(self, parent_folder_id: str, file_name:str) -> List[Tu
 ```
 
 #### **Parameters:**
-- `parent_folder_id`: The folder ID preceeding your target folder. E.g. you are searching/creating the for `folder1/folder2`, you need to provide the ID of `folder1/`. 
+- `parent_folder_id`: The folder ID preceding your target folder. For example, if you are searching or creating `folder1/folder2`, you need to provide the ID of `folder1/`.
 - `file_name`: Name of the file to be searched in the Drive folder.
 
 #### **Method call:**
@@ -147,7 +147,7 @@ def bin_file_to_drive(self, dst_folder_id:str, file_data:List[Tuple], update_dup
 
 #### **Parameters:**
 - `dst_folder_id`: The ID of the Drive folder to upload the files to. It can also be your root Drive folder.
-- `file_data`: List of `(file_name, file_buffer)` pair. Can be obtained from [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
+- `file_data`: List of `(file_name, file_buffer)` pairs. Can be obtained from [`df_to_csv_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_csv_bin) and [`df_to_excel_bin`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/bigquery.md#df_to_excel_bin).
 - `update_dup`: `True` to truncate existing file with the same name in the target folder. `False` to ignore existing files and allow duplicate files.
 - `log`: `True` to enable printing messages for logging. `False` otherwise.
 
@@ -165,7 +165,7 @@ No return value.
 
 ### Drive ID
 
-There are 2 formats of Drive Ids:
+There are two formats of Drive IDs:
 
 #### 1. **My Drive (owned Drive)**
 
@@ -176,7 +176,7 @@ There are 2 formats of Drive Ids:
 
 ##### **Parameters parsing:**
 - You can ignore any parameters containing `drive_id` when working on My Drive.
-- E.g. `main_drive_id` in [`drive_autodetect_folders`]().
+- E.g. `main_drive_id` in [`drive_autodetect_folders`](#drive_autodetect_folders).
 
 #### 2. **Shared Drives**
 
@@ -187,7 +187,7 @@ There are 2 formats of Drive Ids:
 - Usually contains `/u/0/` to indicate user domain.
 
 ##### **Parameters parsing:**
-- You neeed to parse the `DRIVE_ID` part of the link, as a string, into parameters containing `drive_id`.
+- You need to parse the `DRIVE_ID` part of the link, as a string, into parameters containing `drive_id`.
 - In this case, the Drive ID is `0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456`.
 - E.g. `main_drive_id="0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456"` (from [`drive_autodetect_folders`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#drive_autodetect_folders)).
 
@@ -199,14 +199,14 @@ Each Drive folder is identified by a unique ID.
 #### 1. **My Drive folders**
 - Link format: `https://drive.google.com/drive/folders/FOLDER_ID`.
 - Example: "https://drive.google.com/drive/folders/1ABCdEfGH2IJK-LMnOpQ3RSTuv4WXYZab".
-- Folder IDs typically starts with `1` to indicate a folder in a personal Drive.
+- Folder IDs typically start with `1` to indicate a folder in a personal Drive.
 
 #### 2. **Shared Drive folders:**
 - Link format: `https://drive.google.com/drive/u/0/folders/FOLDER_ID`.
 - Example: "https://drive.google.com/drive/u/0/folders/0ABcDeFgHiJkLmNoPqRsTuVwXyZ123456".
-- Folder IDs typically starts with `0` to indicate a folder in a personal Drive.
+- Folder IDs typically start with `0` to indicate a folder in a shared Drive.
 - Usually contains `/u/0/` to indicate user domain.
 
 #### **Parameters and parsing:**
-- You will always have to parse the `FOLDER_ID` part of the link, as a string, to any parameters containing `folder_id` regardless of if you are working on personal or shared drives.
+- You will always have to parse the `FOLDER_ID` part of the link, as a string, to any parameters containing `folder_id` regardless of whether you are working on personal or shared drives.
 - E.g. `parent_folder_id` from [`drive_autodetect_folders`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#drive_autodetect_folders) and `dst_folder_id` from [`local_file_to_drive`](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md#local_file_to_drive).

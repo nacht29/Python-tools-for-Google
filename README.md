@@ -2,7 +2,7 @@
 # Python-tools-for-Google
 <!-- </h1> -->
 
-Building a Python package for working with Google Services, including GCP and Google Drive
+Building a Python package for working with Google Services, including GCP and Google Drive.
 
 ## Set up
 1. Create and activate a Python virtual environment in your working directory:
@@ -28,7 +28,7 @@ Building a Python package for working with Google Services, including GCP and Go
 	from python_utils.bigquery import *
 	from python_utils.utils import *
 	```
-7. Feel free to expand the `python_utils` folder with your custom modules that is needed for any projects.
+7. Feel free to expand the `python_utils` folder with custom modules that are needed for any projects.
 
 ---
 
@@ -40,7 +40,7 @@ Building a Python package for working with Google Services, including GCP and Go
 - #### **[google_drive.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
 	- Class and methods for working with Google Drive
 
-- #### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/google_drive.md)**
+- #### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md)**
 	- Functions for working with Google Cloud Storage Bucket
 
 - #### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
