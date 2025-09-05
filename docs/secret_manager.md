@@ -2,8 +2,7 @@
 
 ## Set up
 
-1. Create a service account key for the target Google Cloud project.
-2. Build a credentials object using the service account key. The credentials allow your Python script/program to authenticate with Secret Manager.
+1. Build a credentials object using the service account key. The credentials allow your Python script/program to authenticate with Secret Manager.
 
 ```py
 from google.oauth2 import service_account
@@ -16,6 +15,8 @@ credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCO
 ```
 
 ---
+
+## **Functions**
 
 ## get_secret
 
@@ -34,9 +35,9 @@ def get_secret(secret_id:str, project_id:str, credentials) -> Dict[str, Any]:
 from python_utils.secret_manager import get_secret
 
 secret = get_secret(
-        secret_id="my-api-key",
-        project_id=credentials.project_id,
-        credentials=credentials
+	secret_id="secret_name",
+	project_id=credentials.project_id,
+	credentials=credentials
 )
 ```
 
@@ -46,4 +47,3 @@ Retrieve the latest version of a secret from Google Secret Manager. The secret p
 #### **Return value:**
 - Type: `Dict[str, Any]`
 - Returns the secret payload as a Python dictionary.
-
