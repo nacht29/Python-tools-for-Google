@@ -42,6 +42,9 @@ Building a Python package for working with Google Services, including GCP and Go
 
 - #### **[gcs_bucket.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/gcs_bucket.md)**
 	- Functions for working with Google Cloud Storage Bucket
+	
+- #### **[secret_manager.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/secret_manager.md)**
+	- 
 
 - #### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
 	- Functions for working with APIs 
@@ -51,3 +54,4 @@ Building a Python package for working with Google Services, including GCP and Go
 
 - #### **[formats.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/formats.md)**
 	- Enforce file type rules. Do not edit the initial content in this file.
+
