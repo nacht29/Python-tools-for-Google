@@ -44,7 +44,7 @@ Building a Python package for working with Google Services, including GCP and Go
 	- Functions for working with Google Cloud Storage Bucket
 	
 - #### **[secret_manager.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/secret_manager.md)**
-        - Retrieve secrets from Google Secret Manager as Python dictionaries
+	- Retrieve secrets from Google Secret Manager as Python dictionaries
 
 - #### **[api.py](https://github.com/nacht29/Python-tools-for-Google/blob/main/docs/api.md)**
 	- Functions for working with APIs 
